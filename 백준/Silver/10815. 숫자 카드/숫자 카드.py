@@ -5,26 +5,18 @@ input = sys.stdin.readline
 N = int(input().strip())
 Cards = list(map(int, input().split()))
 
-# 카드 배열 정렬하기. 2진 탐색 위해서.
-Cards.sort()
+# Flag 배열 설정. 바이어스가 10의 7승이 되겠다. 음수도 들어올테니..
+Flags = [False] * (2 * 10**7)
+for c in Cards:
+    Flags[c+(10**7)] = True
 
 # 쿼리의 수 M과 쿼리들 입력받기.
 M = int(input().strip())
 Queries = list(map(int, input().split()))
 
+# Flag 배열 출력
 for Q in Queries:
-    left, right = 0, len(Cards)-1   # left와 right 포인터 만들기
-    find = False
-    while left <= right:
-        mid = (left + right) // 2
-        if Cards[mid] == Q:
-            find = True
-            break
-        elif Cards[mid] < Q:
-            left = mid + 1
-        else:
-            right = mid - 1
-    if find:
+    if Flags[Q+(10**7)]:
         print(1, end=" ")
     else:
         print(0, end=" ")
